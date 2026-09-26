@@ -1,0 +1,18 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Node (only used for local testing, never shipped)
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# Build artifact — regenerate with scripts/pack.sh
+sloka-slides.zip
+
+# Scratch
+*.log
+tmp/

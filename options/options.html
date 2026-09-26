@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Śloka Slides — Settings</title>
+  <link rel="icon" href="../icons/icon32.png">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <aside class="side">
+    <div class="brand"><img src="../icons/icon48.png" alt="" width="36" height="36"><div><b>Śloka Slides</b><small>Settings</small></div></div>
+    <nav>
+      <a href="#look">🎨 Look &amp; themes</a>
+      <a href="#type">🔤 Typography</a>
+      <a href="#layout">🗂 Slide layout</a>
+      <a href="#present">🎬 Presenting</a>
+      <a href="#sites">⌖ Site mappings</a>
+      <a href="#decks">📚 Slideshows</a>
+      <a href="#backup">💾 Backup</a>
+      <a href="#help">❓ How to use</a>
+    </nav>
+    <p class="saved" id="saved">All changes save automatically</p>
+  </aside>
+
+  <main>
+    <!-- LOOK -->
+    <section id="look">
+      <h2>Look &amp; themes</h2>
+      <div class="field">
+        <label>Mode</label>
+        <div class="seg" data-k="mode"><button value="auto">Follow system</button><button value="light">Always light</button><button value="dark">Always dark</button></div>
+      </div>
+      <div class="field col">
+        <label>Light theme</label>
+        <div class="themes" id="lightThemes"></div>
+      </div>
+      <div class="field col">
+        <label>Dark theme</label>
+        <div class="themes" id="darkThemes"></div>
+      </div>
+      <details class="card" id="customBox">
+        <summary>Custom theme — pick your own colours</summary>
+        <div class="colors">
+          <label>Background<input type="color" data-c="bg"></label>
+          <label>Panels<input type="color" data-c="surface"></label>
+          <label>Text<input type="color" data-c="fg"></label>
+          <label>Faded text<input type="color" data-c="muted"></label>
+          <label>Accent<input type="color" data-c="accent"></label>
+          <label>Accent 2<input type="color" data-c="accent2"></label>
+          <label class="chk"><input type="checkbox" data-c="dark"> It is a dark theme</label>
+        </div>
+        <div class="btns"><button id="useCustomLight">Use as light theme</button><button id="useCustomDark">Use as dark theme</button></div>
+      </details>
+      <div class="field">
+        <label>Background</label>
+        <div class="seg" data-k="bgStyle"><button value="plain">Plain</button><button value="glow">Soft glow</button><button value="aurora">Aurora</button><button value="mandala">Mandala</button></div>
+      </div>
+    </section>
+
+    <!-- TYPE -->
+    <section id="type">
+      <h2>Typography</h2>
+      <div class="field"><label>Main font</label><select data-k="fontBody" id="fBody"></select></div>
+      <div class="field"><label>Devanāgarī / Bengali font</label><select data-k="fontScript" id="fScript"></select></div>
+      <div class="field"><label>Verse number &amp; headings font</label><select data-k="fontHead" id="fHead"></select></div>
+      <div class="field"><label>Text size <output></output></label><input type="range" data-k="fontSize" min="16" max="80" step="1"></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="scaleWithWindow"> Scale text with the window size (recommended for projectors)</label></div>
+      <div class="field"><label>Line spacing <output></output></label><input type="range" data-k="lineHeight" min="1" max="2.4" step="0.05"></div>
+      <div class="field"><label>Letter spacing <output></output></label><input type="range" data-k="letterSpacing" min="-0.03" max="0.15" step="0.005"></div>
+      <div class="field"><label>Word spacing <output></output></label><input type="range" data-k="wordSpacing" min="0" max="0.5" step="0.02"></div>
+      <div class="field"><label>Text width <output></output></label><input type="range" data-k="contentWidth" min="40" max="98" step="1"></div>
+      <div class="field"><label>Paragraph alignment</label><div class="seg" data-k="textAlign"><button value="left">Left</button><button value="justify">Justify</button><button value="center">Center</button></div></div>
+      <div class="field"><label>Verse alignment</label><div class="seg" data-k="verseAlign"><button value="center">Center</button><button value="left">Left</button></div></div>
+      <h3>Relative size of each section</h3>
+      <div class="field"><label>Devanāgarī <output></output></label><input type="range" data-k="scale.script" min="0.5" max="2" step="0.05"></div>
+      <div class="field"><label>Transliteration <output></output></label><input type="range" data-k="scale.translit" min="0.5" max="2" step="0.05"></div>
+      <div class="field"><label>Word-for-word <output></output></label><input type="range" data-k="scale.synonyms" min="0.5" max="1.6" step="0.05"></div>
+      <div class="field"><label>Translation <output></output></label><input type="range" data-k="scale.translation" min="0.5" max="2" step="0.05"></div>
+      <div class="field"><label>Purport <output></output></label><input type="range" data-k="scale.purport" min="0.5" max="2" step="0.05"></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="translitItalic"> Transliteration in italics</label></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="translationBold"> Translation in bold</label></div>
+    </section>
+
+    <!-- LAYOUT -->
+    <section id="layout">
+      <h2>Slide layout</h2>
+      <div class="field col">
+        <label>How to fill slides</label>
+        <div class="choice" data-k="layout">
+          <button value="flow"><b>Fit as much as fits</b><small>Verse number on top, then verse, word-for-word, translation and purport — flowing onto the next slide only when the screen is full.</small></button>
+          <button value="section"><b>One section per slide</b><small>Verse · Word-for-word · Translation · Purport each start on a fresh slide. Long purports continue over several slides.</small></button>
+        </div>
+      </div>
+      <div class="field col">
+        <label>Sections — order &amp; visibility <small>(drag, or use the arrows)</small></label>
+        <ol class="order" id="order"></ol>
+      </div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="combineShort"> When verses have no purport, put several verses on one slide</label></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="labels"> Show section labels (“Word for word”, “Translation”, “Purport”)</label></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="purportCue"> Show a faded “Purport follows” hint when the purport is on the next slide</label></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="endNote"> Show a recited closing line after the final purport</label></div>
+      <div class="field"><label>Closing line text</label><input type="text" data-k="endNoteText" placeholder="Thus ends the Bhaktivedanta Purport."></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="vcenter"> Center content vertically</label></div>
+      <div class="field"><label>Verse-number header (top of slide)</label><div class="seg" data-k="headerMode"><button value="verse">Verse slides only</button><button value="all">All slides</button><button value="off">Off</button></div></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="titleSlide"> Start multi-verse decks with a title slide</label></div>
+      <div class="field"><label>Word-for-word style</label><div class="seg" data-k="synonymsStyle"><button value="flow">Flowing text</button><button value="list">Two columns</button></div></div>
+      <div class="field"><label>Transition</label><div class="seg" data-k="transition"><button value="none">None</button><button value="fade">Fade</button><button value="slide">Slide</button><button value="rise">Rise</button><button value="zoom">Zoom</button></div></div>
+    </section>
+
+    <!-- PRESENT -->
+    <section id="present">
+      <h2>Presenting</h2>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="showArrows"> Left / right navigation arrows</label></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="showProgress"> Progress bar along the bottom</label></div>
+      <div class="field"><label>Progress bar thickness <output></output></label><input type="range" data-k="progressHeight" min="1" max="10" step="1"></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="showTicks"> Mark where each verse starts on the progress bar</label></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="showCorner"> Current verse, faded, in the bottom-right corner</label></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="showCounter"> Slide counter (e.g. 3 / 24)</label></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="showClock"> Small clock in the bottom-left corner</label></div>
+      <div class="field"><label>Auto-advance</label><div class="seg" data-k="autoMode"><button value="off">Off</button><button value="fixed">Fixed time</button><button value="pace">Reading pace</button></div></div>
+      <div class="field"><label>Seconds per slide (fixed) <output></output></label><input type="range" data-k="autoSeconds" min="5" max="180" step="5"></div>
+      <div class="field"><label>Reading pace, words per minute <output></output></label><input type="range" data-k="wpm" min="60" max="320" step="10"></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="wheelNav"> Mouse wheel changes slides</label></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="clickNav"> Clicking the slide goes forward (Shift+click goes back)</label></div>
+      <div class="field"><label class="chk"><input type="checkbox" data-k="rememberPosition"> Reopen a slideshow where you left off</label></div>
+      <div class="field"><label>Open slideshows in</label><div class="seg" data-k="openIn"><button value="tab">New tab</button><button value="window">Separate window (for a projector)</button></div></div>
+    </section>
+
+    <!-- SITES -->
+    <section id="sites">
+      <h2>Site mappings</h2>
+      <p class="lead">Every website lays out verses differently. A <b>mapping</b> tells Śloka Slides which box on the page holds the verse number, the Devanāgarī, transliteration, word-for-word, translation and purport. The easiest way is to open a verse page, click the extension and choose <b>Map this site</b> — then just point and click. Mappings work for single-verse pages and for pages that list a whole chapter.</p>
+      <div id="profiles"></div>
+      <div class="btns"><button id="addProfile">＋ Add mapping manually</button></div>
+    </section>
+
+    <!-- DECKS -->
+    <section id="decks">
+      <h2>Slideshows</h2>
+      <p class="lead">The last 15 slideshows are kept so you can reopen them in the next class.</p>
+      <ul class="decklist" id="deckList"></ul>
+      <div class="btns"><button id="openPaste">✎ New from pasted text</button><button id="openSample">Open the sample verse</button></div>
+    </section>
+
+    <!-- BACKUP -->
+    <section id="backup">
+      <h2>Backup</h2>
+      <p class="lead">Export your settings and site mappings to share them with other teachers or move to another computer.</p>
+      <div class="btns">
+        <button id="exportAll">⬇ Export settings &amp; mappings</button>
+        <button id="importAll">⬆ Import…</button>
+        <button id="resetAll" class="danger">Reset all settings</button>
+      </div>
+      <input type="file" id="importFile" accept=".json" hidden>
+    </section>
+
+    <!-- HELP -->
+    <section id="help">
+      <h2>How to use</h2>
+      <ol class="howto">
+        <li><b>One verse:</b> open the verse page and click the toolbar icon → <b>Present this page</b> (or press <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>).</li>
+        <li><b>Some verses from a chapter page:</b> select them with the mouse, then present — only the selected verses become slides.</li>
+        <li><b>Verses spread over many pages:</b> on each page choose <b>Add to collection</b> (<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd>), then <b>Present collection</b>. Or select several links on a chapter’s contents page and choose <b>Present linked pages</b>.</li>
+        <li><b>Any text:</b> copy it and use <b>Paste text</b>.</li>
+        <li>During the class press <kbd>T</kbd> for quick tools (font, size, spacing, theme), <kbd>G</kbd> for the verse list and search, <kbd>?</kbd> for all shortcuts.</li>
+        <li><b>Resize a section:</b> press <kbd>+</kbd> / <kbd>−</kbd> (or the A± buttons) on a slide to size that section (verse, word-for-word, translation or purport). The size is <b>saved automatically</b> and used for every verse — the same values as “Relative size of each section” above. Hold <kbd>Alt</kbd> for the overall size; <kbd>0</kbd> resets the section, <kbd>Alt</kbd>+<kbd>0</kbd> resets the overall size.</li>
+        <li><b>Fix a verse number:</b> hover the number and click ✎ (or press <kbd>E</kbd>), type the correct number, and press <kbd>Enter</kbd> to save. Useful when a page shows “Text 1, Text 2”.</li>
+      </ol>
+    </section>
+  </main>
+
+  <aside class="preview">
+    <div class="pv-head"><b>Live preview</b><a id="pvOpen" href="#" title="Open full screen">↗</a></div>
+    <div class="pv-frame"><iframe id="pv" title="Preview" src="../slides/slides.html#preview"></iframe></div>
+    <p class="pv-note">Changes appear here instantly — and in any open slideshow.</p>
+  </aside>
+
+  <template id="profileTpl">
+    <details class="card profile">
+      <summary><span class="p-name"></span><span class="p-host"></span><span class="p-badge"></span></summary>
+      <div class="p-grid">
+        <label>Name<input data-p="name"></label>
+        <label>Website (host)<input data-p="host" placeholder="vedabase.io"></label>
+        <label class="span2">Pages (path pattern, * = anything)<input data-p="path" placeholder="/en/library/sb/*"></label>
+        <label class="span2">Verse block <small>(optional — one element per verse)</small><input data-p="container" class="mono"></label>
+      </div>
+      <div class="p-fields"></div>
+      <div class="btns">
+        <label class="chk"><input type="checkbox" data-p="enabled"> Enabled</label>
+        <span class="grow"></span>
+        <button class="dup">Duplicate</button>
+        <button class="del danger">Delete</button>
+      </div>
+    </details>
+  </template>
+
+  <script src="../src/common.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

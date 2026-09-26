@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Śloka Slides</title>
+  <link rel="icon" href="../icons/icon32.png">
+  <link rel="stylesheet" href="slides.css">
+</head>
+<body class="idle">
+  <div id="bg" aria-hidden="true"></div>
+
+  <main id="stage" aria-live="polite"></main>
+  <div id="measure" aria-hidden="true"></div>
+
+  <!-- navigation -->
+  <button class="nav prev" id="prev" title="Previous (←)" aria-label="Previous slide">
+    <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+  <button class="nav next" id="next" title="Next (→)" aria-label="Next slide">
+    <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+  </button>
+
+  <!-- top-right toolbar -->
+  <div id="toolbar" class="chrome">
+    <button data-act="nav" title="Verses & search (G)"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
+    <button data-act="tools" title="Quick tools (T)"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>
+    <button data-act="font-" title="Smaller — this section, saved for all verses (−) · Alt for overall size"><span class="txt">A−</span></button>
+    <button data-act="font+" title="Larger — this section, saved for all verses (+) · Alt for overall size"><span class="txt">A+</span></button>
+    <button data-act="dark" title="Light / dark (D)"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg></button>
+    <button data-act="auto" title="Auto-advance (A)" id="autoBtn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+    <button data-act="full" title="Full screen (F)"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    <button data-act="pdf" title="Export as PDF (Ctrl/⌘+P)"><svg viewBox="0 0 24 24"><path d="M6 9V3h9l3 3v3M6 18h12M6 21h12v-8H6z"/><path d="M9 13v4M12 13v4M15 13v4"/></svg></button>
+    <button data-act="help" title="Shortcuts (?)"><span class="txt">?</span></button>
+  </div>
+
+  <!-- bottom -->
+  <div id="clock" class="faded"></div>
+  <div id="corner" class="faded"><span id="cornerRef"></span><span id="cornerCount"></span></div>
+  <div id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+    <div id="progressTrack"><div id="progressFill"></div><div id="ticks"></div></div>
+    <div id="progressTip"></div>
+  </div>
+  <div id="autoRing"></div>
+
+  <!-- overlays -->
+  <div id="curtain"></div>
+  <div id="laser"></div>
+  <div id="toast"></div>
+
+  <!-- navigator -->
+  <aside id="navigator" class="drawer left" aria-label="Verses">
+    <header><h2>Verses</h2><button class="close" data-act="nav">✕</button></header>
+    <input id="search" type="search" placeholder="Search words in all verses…  (/)">
+    <div id="verseList"></div>
+    <footer id="deckMeta"></footer>
+  </aside>
+
+  <!-- quick tools -->
+  <aside id="tools" class="drawer right" aria-label="Quick tools">
+    <header><h2>Quick tools</h2><button class="close" data-act="tools">✕</button></header>
+    <div class="tools-body">
+      <section>
+        <h3>Theme</h3>
+        <div class="seg" data-bind="mode">
+          <button value="auto">Auto</button><button value="light">Light</button><button value="dark">Dark</button>
+        </div>
+        <div id="swatches"></div>
+        <label class="row">Background
+          <select data-bind="bgStyle">
+            <option value="plain">Plain</option><option value="glow">Soft glow</option>
+            <option value="aurora">Aurora (animated)</option><option value="mandala">Mandala</option>
+          </select>
+        </label>
+      </section>
+      <section>
+        <h3>Text</h3>
+        <label class="row">Font<select data-bind="fontBody" id="selBody"></select></label>
+        <label class="row">Sanskrit font<select data-bind="fontScript" id="selScript"></select></label>
+        <label class="row">Heading font<select data-bind="fontHead" id="selHead"></select></label>
+        <label class="rng">Size <output></output><input type="range" data-bind="fontSize" min="16" max="80" step="1"></label>
+        <label class="rng">Line spacing <output></output><input type="range" data-bind="lineHeight" min="1" max="2.4" step="0.05"></label>
+        <label class="rng">Letter spacing <output></output><input type="range" data-bind="letterSpacing" min="-0.03" max="0.15" step="0.005"></label>
+        <label class="rng">Word spacing <output></output><input type="range" data-bind="wordSpacing" min="0" max="0.5" step="0.02"></label>
+        <label class="rng">Text width <output></output><input type="range" data-bind="contentWidth" min="40" max="98" step="1"></label>
+        <div class="seg" data-bind="textAlign">
+          <button value="left">Left</button><button value="justify">Justify</button><button value="center">Center</button>
+        </div>
+      </section>
+      <section>
+        <h3>Section sizes</h3>
+        <label class="rng">Devanāgarī <output></output><input type="range" data-bind="scale.script" min="0.5" max="2" step="0.05"></label>
+        <label class="rng">Transliteration <output></output><input type="range" data-bind="scale.translit" min="0.5" max="2" step="0.05"></label>
+        <label class="rng">Word-for-word <output></output><input type="range" data-bind="scale.synonyms" min="0.5" max="1.6" step="0.05"></label>
+        <label class="rng">Translation <output></output><input type="range" data-bind="scale.translation" min="0.5" max="2" step="0.05"></label>
+        <label class="rng">Purport <output></output><input type="range" data-bind="scale.purport" min="0.5" max="2" step="0.05"></label>
+      </section>
+      <section>
+        <h3>Show</h3>
+        <div class="chips">
+          <label><input type="checkbox" data-bind="show.script"><span>Devanāgarī</span></label>
+          <label><input type="checkbox" data-bind="show.translit"><span>Transliteration</span></label>
+          <label><input type="checkbox" data-bind="show.synonyms"><span>Word-for-word</span></label>
+          <label><input type="checkbox" data-bind="show.translation"><span>Translation</span></label>
+          <label><input type="checkbox" data-bind="show.purport"><span>Purport</span></label>
+          <label><input type="checkbox" data-bind="labels"><span>Section labels</span></label>
+          <label><input type="checkbox" data-bind="purportCue"><span>“Purport follows” hint</span></label>
+          <label><input type="checkbox" data-bind="endNote"><span>Closing line at the end</span></label>
+        </div>
+      </section>
+      <section>
+        <h3>Layout</h3>
+        <div class="seg" data-bind="layout">
+          <button value="flow">Fit as much as fits</button><button value="section">One section per slide</button>
+        </div>
+        <label class="sw"><input type="checkbox" data-bind="combineShort"><span>Put several short verses (no purport) on one slide</span></label>
+        <label class="sw"><input type="checkbox" data-bind="vcenter"><span>Center content vertically</span></label>
+        <label class="row">Top header
+          <select data-bind="headerMode"><option value="verse">Verse slides only</option><option value="all">All slides</option><option value="off">Off</option></select>
+        </label>
+        <label class="row">Word-for-word style
+          <select data-bind="synonymsStyle"><option value="flow">Flowing</option><option value="list">Two columns</option></select>
+        </label>
+        <label class="row">Transition
+          <select data-bind="transition">
+            <option value="none">None</option><option value="fade">Fade</option><option value="slide">Slide</option>
+            <option value="rise">Rise</option><option value="zoom">Zoom</option>
+          </select>
+        </label>
+      </section>
+      <section>
+        <h3>Auto-advance</h3>
+        <div class="seg" data-bind="autoMode">
+          <button value="off">Off</button><button value="fixed">Fixed time</button><button value="pace">Reading pace</button>
+        </div>
+        <label class="rng">Seconds per slide <output></output><input type="range" data-bind="autoSeconds" min="5" max="180" step="5"></label>
+        <label class="rng">Reading pace (words / min) <output></output><input type="range" data-bind="wpm" min="60" max="320" step="10"></label>
+      </section>
+      <section class="actions">
+        <button data-act="paste">Paste text…</button>
+        <button data-act="pdf">Export as PDF</button>
+        <button data-act="export">Export deck</button>
+        <button data-act="import">Import deck</button>
+        <button data-act="expset">Export settings</button>
+        <button data-act="impset">Import settings</button>
+        <button data-act="options">All settings</button>
+        <button data-act="reset" class="warn">Reset look</button>
+      </section>
+    </div>
+  </aside>
+
+  <!-- help -->
+  <div id="help" class="modal" hidden>
+    <div class="card">
+      <h2>Keyboard & remote shortcuts</h2>
+      <div class="keys">
+        <div><kbd>→</kbd> <kbd>Space</kbd> <kbd>PgDn</kbd></div><span>Next slide</span>
+        <div><kbd>←</kbd> <kbd>PgUp</kbd> <kbd>Backspace</kbd></div><span>Previous slide</span>
+        <div><kbd>↓</kbd> / <kbd>↑</kbd></div><span>Next / previous verse</span>
+        <div><kbd>Home</kbd> <kbd>End</kbd></div><span>First / last slide</span>
+        <div><kbd>G</kbd> <kbd>/</kbd></div><span>Verse list &amp; search</span>
+        <div><kbd>J</kbd></div><span>Jump to verse number</span>
+        <div><kbd>E</kbd></div><span>Rename this verse’s number (Enter saves, Esc cancels)</span>
+        <div><kbd>T</kbd></div><span>Quick tools</span>
+        <div><kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd></div><span>Size of <b>this section</b> (verse / word-for-word / translation / purport) — <b>saved</b> for every verse; <kbd>0</kbd> resets it</span>
+        <div><kbd>Alt</kbd>+<kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd></div><span>Overall text size for <b>everything</b> / reset</span>
+        <div><kbd>D</kbd></div><span>Toggle light / dark</span>
+        <div><kbd>F</kbd></div><span>Full screen</span>
+        <div><kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>P</kbd></div><span>Export the whole slideshow as a PDF</span>
+        <div><kbd>A</kbd></div><span>Auto-advance on / off</span>
+        <div><kbd>B</kbd> <kbd>W</kbd></div><span>Black / white screen</span>
+        <div><kbd>L</kbd></div><span>Laser pointer</span>
+        <div><kbd>S</kbd></div><span>Spotlight the paragraph under the mouse</span>
+        <div><kbd>H</kbd></div><span>Click words to highlight them (toggle mode)</span>
+        <div><kbd>1</kbd>–<kbd>5</kbd></div><span>Toggle Devanāgarī, translit., word-for-word, translation, purport</span>
+        <div><kbd>Esc</kbd></div><span>Close panels</span>
+      </div>
+      <p class="muted">Presentation clickers work too (they send PgUp / PgDn). Swipe on touch screens.</p>
+      <button data-act="help" class="primary">Got it</button>
+    </div>
+  </div>
+
+  <div id="jump" class="modal" hidden>
+    <form class="card small">
+      <h2>Jump to verse</h2>
+      <input id="jumpInput" placeholder="e.g. 12  or  8.1.12" autocomplete="off">
+      <p class="muted" id="jumpHint"></p>
+    </form>
+  </div>
+
+  <div id="paste" class="modal" hidden>
+    <div class="card wide">
+      <h2>Paste verse text</h2>
+      <p class="muted">Paste one or many verses. Lines like “ŚB 8.1.2” / “Text 2” start a verse; headings “Synonyms”, “Translation” and “Purport” start sections.</p>
+      <textarea id="pasteText" spellcheck="false" placeholder="ŚB 8.1.2&#10;&#10;मन्वन्तरे हरेर्जन्म …&#10;&#10;manvantare harer janma&#10;…&#10;Synonyms&#10;…&#10;Translation&#10;…&#10;Purport&#10;…"></textarea>
+      <div class="row-btns"><button data-act="paste">Cancel</button><button class="primary" id="pasteGo">Create slides</button></div>
+    </div>
+  </div>
+  <input type="file" id="importFile" accept=".json,application/json" hidden>
+  <input type="file" id="importSettingsFile" accept=".json,application/json" hidden>
+
+  <script src="../src/common.js"></script>
+  <script src="slides.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Śloka Slides — Verse Presenter",
+  "short_name": "Śloka Slides",
+  "version": "1.4.1",
+  "description": "Turn scripture pages (verse, word-for-word, translation, purport) into a clean, distraction-free slideshow for classes.",
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "action": {
+    "default_title": "Śloka Slides",
+    "default_popup": "popup/popup.html",
+    "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png" }
+  },
+  "background": { "service_worker": "src/background.js" },
+  "options_page": "options/options.html",
+  "permissions": ["activeTab", "scripting", "storage", "contextMenus"],
+  "commands": {
+    "present": {
+      "suggested_key": { "default": "Alt+Shift+S" },
+      "description": "Present the selection (or the whole page) as slides"
+    },
+    "collect": {
+      "suggested_key": { "default": "Alt+Shift+A" },
+      "description": "Add the selection (or the whole page) to the collection"
+    }
+  }
+}

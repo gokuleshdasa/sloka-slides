@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="34" height="34">
+    <div><h1>Śloka Slides</h1><p id="status">Looking at this page…</p></div>
+    <button class="icon" id="settings" title="Settings">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+    </button>
+  </header>
+
+  <button class="hero" id="present">
+    <span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+    <span><b id="presentLabel">Present this page</b><small id="presentSub">Alt+Shift+S</small></span>
+  </button>
+
+  <div class="grid">
+    <button id="collect"><b>＋ Add to collection</b><small>Build a deck from several pages</small></button>
+    <button id="links" disabled><b>⇶ Present linked pages</b><small>Select links (e.g. a chapter index) first</small></button>
+  </div>
+
+  <section id="collection" hidden>
+    <div class="col-head"><b>Collection</b><span id="colCount"></span><button class="link" id="clear">Clear</button></div>
+    <ol id="colList"></ol>
+    <button class="wide primary" id="presentCol">▶ Present collection</button>
+  </section>
+
+  <div class="grid">
+    <button id="map"><b>⌖ Map this site</b><small id="mapSub">Point at verse, translation, purport…</small></button>
+    <button id="paste"><b>✎ Paste text</b><small>Make slides from copied text</small></button>
+  </div>
+
+  <section id="recent" hidden>
+    <div class="col-head"><b>Recent slideshows</b></div>
+    <ul id="recentList"></ul>
+  </section>
+
+  <p class="err" id="err" hidden></p>
+  <footer><button class="link" id="demo">Try the sample verse</button><span>·</span><button class="link" id="shortcuts">Keyboard shortcuts</button></footer>
+  <script src="../src/common.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
